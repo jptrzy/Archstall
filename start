@@ -35,7 +35,7 @@ for i in $(fdisk -l | grep "Disk /dev" | sed "s/ /\^/g;s/://;s/,//") ; do
     ii=$(($ii+1))
     if [ $ii = $id ]; then 
         disk=$(printf "$i" | sed 's/\^/ /g' | cut -d" " -f 2)
-        pe=$(( $(printf "$i" | sed 's/\^/ /g' | cut -d" " -f 5) /1024-2048 ))
+        pe=$(( $(printf "$i" | sed 's/\^/ /g' | cut -d" " -f 5) /1024-4096 ))
         ps=$(( $(cat /proc/meminfo | grep "MemTotal" | sed "s/ \+/ /g" | cut -d" " -f 2) ))
         pm=$(( $pe - $ps))
     fi
@@ -49,8 +49,8 @@ s=$((2048*2))
 e=$(($pm*2))
 echo "1 $s $e $(( $e - $s ))"
 parted $disk mkpart ext4 ${s}s ${e}s
-s=$((($pm+1024)*2))
-e=$(( (($pe+1024) - ($pe%1024) )  *2 ))
+s=$((($pm+2048)*2))
+e=$((($pe+2048)*2))
 echo "2 $s $e $(( $e - $s ))"
 parted $disk mkpart linux-swap ${s}s ${e}s
 
