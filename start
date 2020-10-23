@@ -41,7 +41,7 @@ for i in $(fdisk -l | grep "Disk /dev" | sed "s/ /\^/g;s/://;s/,//") ; do
     fi
 done
 
-echo "$disk $pm $pe"
+echo "$disk $pm $pe $(( ($pe+1024) - ($pe%1024) ))"
 
 umount $disk
 sfdisk --delete $disk
