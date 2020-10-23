@@ -3,5 +3,19 @@
 n="Archstall"
 printf "[$n] Start\n"
 
+##[E] Check If is EFI and if not 
+[ -d "/sys/firmware/efi/efivars" ] && echo "[$n] You are in efi mode. Please change it to standard."
+
+##Setup Keyboard
+loadkeys pl
+
+##Setup Time
+timedatectl set-ntp true
+
+
+##Setup Partitions
+
+
+
 printf "[$n] End\n"
 
