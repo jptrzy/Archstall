@@ -36,11 +36,11 @@ for i in $(fdisk -l | grep "Disk /dev" | sed "s/ /\^/g;s/://;s/,//") ; do
     if [ $ii = $id ]; then 
         disk=$(printf "$i" | sed 's/\^/ /g' | cut -d" " -f 2)
         pe=$(printf "$i" | sed 's/\^/ /g' | cut -d" " -f 5)
-        pm=$(($pe - $(cat /proc/meminfo | grep "MemTotal" | sed "s/ \+/ /g" | cut -d" " -f 2)000 ))
+        pm=$(($pe - ($(cat /proc/meminfo | grep "MemTotal" | sed "s/ \+/ /g" | cut -d" " -f 2)*1024) ))
     fi
 done
 
-echo "$disk $pm $pe $(cat /proc/meminfo | grep "MemTotal" | sed "s/ \+/ /g" | cut -d" " -f 2)000"
+echo "$disk $pm $pe"
 
 umount $disk
 sfdisk --delete $disk
