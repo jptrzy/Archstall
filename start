@@ -44,8 +44,8 @@ echo "$disk $pm $pe"
 
 umount $disk
 sfdisk --delete $disk
-parted $disk mkpart "root partition" ext4 1049kb ${pm}b
-parted $disk mkpart "swap partition" linux-swap ${pm}b ${pe}b
+parted $disk mkpart ext4 1049kb ${pm}b
+parted $disk mkpart linux-swap ${pm}b ${pe}b
 
 echo "[$n] End"
 
