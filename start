@@ -8,6 +8,7 @@ read out
 echo "[$n] Start"
 
 cat install2 >> /mnt/root/install2
+
 arch-chroot /mnt /root/install2
 
 echo "[$n] End"
