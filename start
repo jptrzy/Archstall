@@ -67,24 +67,11 @@ pacstrap /mnt base linux linux-firmware
 #Generate fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 
+
+
 #Chroot 
-arch-chroot /mnt
-
-ln -sf /usr/share/zoneinfo/Europe/Warsaw /etc/localtime
-hwclock --systohc
-
-printf "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-printf "LANG=en_US.UTF-8" >> /etc/locale.conf
-printf "KEYMAP=pl" >> /etc/vconsole.conf
-
-printf "Hostname: "
-read hn
-printf "$hn" >> /etc/hostname
-printf "127.0.0.1   $hn\n::1        $hn\n127.0.1.1  $hn.localdomain $hn" >> /etc/hosts
-
-mkinitcpio -P
-
-passwd
+cat install2 >> /mnt/root/install2
+arch-chroot /mnt /root/install2
 
 echo "[$n] End"
 
