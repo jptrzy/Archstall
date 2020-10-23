@@ -42,7 +42,7 @@ for i in $(fdisk -l | grep "Disk /dev" | sed "s/ /\^/g;s/://;s/,//") ; do
     fi
 done
 
-echo "$disk $pm $pe $ps"
+echo "$disk $pm $pe $(($pe - $pm))"
 
 echo ""
 
