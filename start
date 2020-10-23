@@ -46,10 +46,10 @@ echo "$disk $pm $pe $ps"
 
 echo ""
 
-#umount $disk
-#sfdisk --delete $disk
-#parted $disk mkpart ext4 1049kb ${pm}kb
-#parted $disk mkpart linux-swap $((pm))kb ${pe}kb
+umount $disk
+sfdisk --delete $disk
+parted $disk mkpart ext4 1049kb ${pm}kb
+parted $disk mkpart linux-swap ${pm}kb ${pe}kb
 
 echo "[$n] End"
 
