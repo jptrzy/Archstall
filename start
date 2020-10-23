@@ -17,7 +17,7 @@ loadkeys pl
 timedatectl set-ntp true
 
 
-##Setup Partitions
+##Setup Partitions ########################
 ii=-1
 for i in $(fdisk -l | grep "Disk /dev" | sed "s/ /\^/g;s/://;s/,//") ; do
     ii=$(($ii+1))
@@ -53,6 +53,25 @@ s=$((  ( ($pm+2048) - (($pm+2048)%1024) )   *2   ))
 e=$((($pe+2048)*2))
 echo "2 $s $e $(( $e - $s ))"
 parted $disk mkpart linux-swap ${s}s ${e}s
+
+mkfs.ext4 ${disk}1
+mkswap ${disk}2
+###########################################
+
+mount ${disk}1 /mnt
+swapon ${disk}2
+
+#Installation
+pacstrap /mnt base linux linux-firmware
+
+#Generate fstab
+genfstab -U /mnt >> /mnt/etc/fstab
+
+#Chroot 
+arch-chroot /mnt
+
+hwclock --systohc
+
 
 echo "[$n] End"
 
