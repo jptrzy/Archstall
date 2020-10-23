@@ -1,27 +1,51 @@
 #!/bin/bash
 
 n="Archstall"
+printf "Do you wont to start $n (yes/no) "
+read out
+[ $out != "yes" ] && exit
+
 echo "[$n] Start"
 
 ##[E] Check If is EFI and if not 
 [ -d "/sys/firmware/efi/efivars" ] && echo "[$n] You are in efi mode. Please change it to standard."
 
 ##Setup Keyboard
-####loadkeys pl
+loadkeys pl
 
 ##Setup Time
-####timedatectl set-ntp true
+timedatectl set-ntp true
 
 
 ##Setup Partitions
-ii=0
+ii=-1
 for i in $(fdisk -l | grep "Disk /dev" | sed "s/ /\^/g;s/://;s/,//") ; do
-
-    echo "$ii $i" | sed 's/\^/ /g' | cut -d" " -f 1,3,4,5
     ii=$(($ii+1))
+    echo "$ii $i" | sed 's/\^/ /g' | cut -d" " -f 1,3,4,5
+done
+printf "Disk [0-$ii] "
+read id
 
+disk=""
+pm=0
+pe=0
+
+ii=-1
+for i in $(fdisk -l | grep "Disk /dev" | sed "s/ /\^/g;s/://;s/,//") ; do
+    ii=$(($ii+1))
+    if [ $ii = $id ]; then 
+        disk=$(printf "$i" | sed 's/\^/ /g' | cut -d" " -f 2)
+        pe=$(printf "$i" | sed 's/\^/ /g' | cut -d" " -f 5)
+        pm=$(($pe - $(cat /proc/meminfo | grep "MemTotal" | sed "s/ \+/ /g" | cut -d" " -f 2)000 ))
+    fi
 done
 
+echo "$disk $pm $pe $(cat /proc/meminfo | grep "MemTotal" | sed "s/ \+/ /g" | cut -d" " -f 2)000"
+
+umount disk
+sfdisk --delete disk
+parted disk mkpart "root partition" ext4 1049kb ${pm}b
+parted disk mkpart "swap partition" linux-swap ${pm}b ${pe}b
 
 echo "[$n] End"
 
