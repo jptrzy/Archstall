@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 n="Archstall"
 printf "[$n] Start\n"
@@ -14,7 +14,11 @@ timedatectl set-ntp true
 
 
 ##Setup Partitions
+for i in ; do
 
+
+
+done
 
 
 printf "[$n] End\n"
