@@ -1,7 +1,7 @@
 #!/bin/bash
 
 n="Archstall"
-printf "[$n] Start\n"
+echo "[$n] Start"
 
 ##[E] Check If is EFI and if not 
 [ -d "/sys/firmware/efi/efivars" ] && echo "[$n] You are in efi mode. Please change it to standard."
@@ -14,12 +14,14 @@ timedatectl set-ntp true
 
 
 ##Setup Partitions
-for i in ; do
+ii=0
+for i in fdisk -l | grep "Disk /dev" | cut -d" " -f 2 | sed "s/://" ; do
 
-
+    echo "$ii $i"
+    ii=$ii+1
 
 done
 
 
-printf "[$n] End\n"
+echo "[$n] End"
 
