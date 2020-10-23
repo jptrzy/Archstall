@@ -49,7 +49,7 @@ s=$((2048*2))
 e=$(($pm*2))
 echo "1 $s $e $(( $e - $s ))"
 parted $disk mkpart ext4 ${s}s ${e}s
-s=$((($pm+2048)*2))
+s=$((  ( ($pm+2048) - (($pm+2048)%1024) )   *2   ))
 e=$((($pe+2048)*2))
 echo "2 $s $e $(( $e - $s ))"
 parted $disk mkpart linux-swap ${s}s ${e}s
