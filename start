@@ -45,7 +45,7 @@ echo "$disk $pm $pe"
 umount $disk
 sfdisk --delete $disk
 parted $disk mkpart ext4 1049kb ${pm}kb
-parted $disk mkpart linux-swap ${pm}kb ${pe}kb
+parted $disk mkpart linux-swap $((pm+1))kb $((pe-pm+1 - ( (pe-pm+1) % 2048 ) ))kb
 
 echo "[$n] End"
 
