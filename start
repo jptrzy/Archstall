@@ -45,10 +45,14 @@ echo "$disk $pm $pe $(( ($pe+1024) - ($pe%1024) ))"
 
 umount $disk
 sfdisk --delete $disk
-echo "1"
-parted $disk mkpart ext4 $((2048*2))s $(($pm*2))s
-echo "2"
-parted $disk mkpart linux-swap $((($pm+1024)*2))s $(( (($pe+1024) - ($pe%1024) )  *2 ))s
+s=$((2048*2))
+e=$(($pm*2))
+echo "1 $s $e $(( $e - $s ))"
+parted $disk mkpart ext4 ${s}s ${e}s
+s=$((($pm+1024)*2))
+e=$(( (($pe+1024) - ($pe%1024) )  *2 ))
+echo "2 $s $e $(( $e - $s ))"
+parted $disk mkpart linux-swap ${s}s ${e}s
 
 echo "[$n] End"
 
