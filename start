@@ -48,7 +48,7 @@ sfdisk --delete $disk
 echo "1"
 parted $disk mkpart ext4 $((2048*1024))b $(($pm*1024))b
 echo "2"
-parted $disk mkpart linux-swap $((($pm+1024)*1024))b $(( (($pe-+1024)*1024) - (($pe-+1024)*1024)%2048) ))b
+parted $disk mkpart linux-swap $((($pm+1024)*1024))b $(( (($pe-+1024)*1024) - ((($pe-+1024)*1024)%2048) ))b
 
 echo "[$n] End"
 
