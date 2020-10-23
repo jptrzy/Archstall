@@ -42,14 +42,12 @@ for i in $(fdisk -l | grep "Disk /dev" | sed "s/ /\^/g;s/://;s/,//") ; do
     fi
 done
 
-echo "$disk $pm $pe $(($pe - $pm))"
+echo "$disk $pm $pe $(($pe - $pm)) $(($pm - 2048 - ($pm % 2048) ))"
 
-echo ""
-
-umount $disk
-sfdisk --delete $disk
-parted $disk mkpart ext4 1049kb $(($pm - 2048 - ($pm % 2048) ))kb
-parted $disk mkpart linux-swap ${pm}kb ${pe}kb
+#umount $disk
+#sfdisk --delete $disk
+#parted $disk mkpart ext4 1049kb $(($pm - 2048 - ($pm % 2048) ))kb
+#parted $disk mkpart linux-swap ${pm}kb ${pe}kb
 
 echo "[$n] End"
 
