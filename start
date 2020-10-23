@@ -1,0 +1,7 @@
+#!/bin/sh
+
+n="Archstall"
+printf "[$n] Start\n"
+
+printf "[$n] End\n"
+
