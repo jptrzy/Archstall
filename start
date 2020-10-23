@@ -44,7 +44,7 @@ echo "$disk $pm $pe $(cat /proc/meminfo | grep "MemTotal" | sed "s/ \+/ /g" | cu
 
 umount $disk
 sfdisk --delete $disk
-parted $disk mkpart "root partition" ext4 1049kb ${pm}b
+parted $disk mkpart "root partition" ext3 1049kb ${pm}b
 parted $disk mkpart "swap partition" linux-swap ${pm}b ${pe}b
 
 echo "[$n] End"
