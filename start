@@ -35,8 +35,8 @@ for i in $(fdisk -l | grep "Disk /dev" | sed "s/ /\^/g;s/://;s/,//") ; do
     ii=$(($ii+1))
     if [ $ii = $id ]; then 
         disk=$(printf "$i" | sed 's/\^/ /g' | cut -d" " -f 2)
-        pe=$(($(printf "$i" | sed 's/\^/ /g' | cut -d" " -f 5)-1049))
-        pm=$(($pe - ($(cat /proc/meminfo | grep "MemTotal" | sed "s/ \+/ /g" | cut -d" " -f 2)*1024) ))
+        pe=$(( $(printf "$i" | sed 's/\^/ /g' | cut -d" " -f 5) /1024 ))
+        pm=$(( $pe - $(cat /proc/meminfo | grep "MemTotal" | sed "s/ \+/ /g" | cut -d" " -f 2) ))
     fi
 done
 
@@ -44,8 +44,8 @@ echo "$disk $pm $pe"
 
 umount $disk
 sfdisk --delete $disk
-parted $disk mkpart ext4 1049kb ${pm}b
-parted $disk mkpart linux-swap ${pm}b ${pe}b
+parted $disk mkpart ext4 1049kb ${pm}kb
+parted $disk mkpart linux-swap ${pm}kb ${pe}kb
 
 echo "[$n] End"
 
