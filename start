@@ -48,7 +48,7 @@ sfdisk --delete $disk
 echo "1"
 parted $disk mkpart ext4 $((2048*1024))b $((4096*1024))b
 echo "2"
-parted $disk mkpart linux-swap 4096kb 8192kb
+parted $disk mkpart linux-swap $((5120*1024))b $((8192*1024))b
 
 echo "[$n] End"
 
